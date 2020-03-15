@@ -1,3 +1,4 @@
+const { AuthenticationError } = require("apollo-server-errors");
 const { ApolloServer, gql } = require('apollo-server');
 const osmosis = require('osmosis');
 
@@ -35,7 +36,15 @@ const resolvers = {
   }
 };
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: ({ req }) => {
+    const env = process.env.AUTHORIZATION;
+    const token = req.headers.authorization || '';
+    if (env !== token) throw new AuthenticationError('authentication failed');
+  }
+});
 
 server.listen().then(({ url }) => {
   console.log(`🚀  Server ready at ${url}`);
