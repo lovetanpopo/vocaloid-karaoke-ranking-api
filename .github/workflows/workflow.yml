@@ -2,6 +2,10 @@ on: [push]
 
 name: Node.js
 
+env:
+  AUTHORIZATION: ${{ secrets.AUTHORIZATION }}
+  PORT: 8080
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -27,9 +31,6 @@ jobs:
       - uses: azure/webapps-deploy@v1
         with:
           app-name: 'vocaloid-karaoke-ranking-api'
-        env:
-          AUTHORIZATION: ${{ secrets.AUTHORIZATION }}
-          PORT: 8080
 
       # Azure logout
       - name: logout
