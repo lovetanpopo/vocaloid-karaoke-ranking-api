@@ -14,6 +14,7 @@
   "dependencies": {
     "apollo-server": "^2.11.0",
     "graphql": "^14.6.0",
-    "osmosis": "^1.1.10"
+    "osmosis": "^1.1.10",
+    "minimist": ">=1.2.2"
   }
 }
