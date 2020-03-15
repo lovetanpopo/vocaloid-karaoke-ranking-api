@@ -1,4 +1,5 @@
 const { ApolloServer, gql } = require('apollo-server');
+const osmosis = require('osmosis');
 
 const typeDefs = gql`
   type Info {
@@ -12,23 +13,26 @@ const typeDefs = gql`
   }
 `;
 
-const sample = [
-  {
-    title: 'シャルル',
-    author: 'バルーン',
-    rank: '1位'
-  },
-  {
-    title: 'ロキ',
-    author: 'みきとP',
-    rank: '2位'
-  }
-];
+const getKaratetsuRanking = () => {
+  return new Promise(resolve => {
+    const results = [];
+    osmosis
+      .get('https://www.karatetsu.com/vocala/pickup/ranking.php')
+      .find('.pickuplist > tbody > tr')
+      .set({
+        title: 'td[2] > a',
+        author: 'td[3] > span',
+        rank: 'td[1]'
+      })
+      .data(item => results.push(item))
+      .done(() => resolve(results));
+  })
+};
 
 const resolvers = {
   Query: {
-    ranking: () => sample,
-  },
+    ranking: async () => await getKaratetsuRanking()
+  }
 };
 
 const server = new ApolloServer({ typeDefs, resolvers });
