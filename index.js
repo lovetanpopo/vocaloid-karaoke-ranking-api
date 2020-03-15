@@ -1,6 +1,7 @@
 const { AuthenticationError } = require("apollo-server-errors");
 const { ApolloServer, gql } = require('apollo-server');
 const osmosis = require('osmosis');
+require('dotenv').config();
 
 const typeDefs = gql`
   type Info {
