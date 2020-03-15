@@ -1,0 +1,37 @@
+on: [push]
+
+name: Node.js
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # checkout the repo
+      - name: 'Checkout Github Action'
+        uses: actions/checkout@master
+
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Setup Node 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+
+      - name: 'npm install, build, and test'
+        run: |
+          npm install
+
+      # deploy web app using Azure credentials
+      - uses: azure/webapps-deploy@v1
+        with:
+          app-name: 'vocaloid-karaoke-ranking-api'
+        env:
+          AUTHORIZATION: ${{ secrets.AUTHORIZATION }}
+          PORT: 8080
+
+      # Azure logout
+      - name: logout
+        run: |
+          az logout
