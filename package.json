@@ -12,7 +12,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "apollo-server": "^2.11.0",
+    "apollo-server": "^2.14.2",
+    "apollo-server-core": "^2.14.2",
+    "apollo-server-express": "^2.14.2",
     "dotenv": "^8.2.0",
     "graphql": "^14.6.0",
     "minimist": ">=1.2.2",
