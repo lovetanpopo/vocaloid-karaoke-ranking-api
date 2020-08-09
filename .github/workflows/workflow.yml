@@ -26,7 +26,7 @@ jobs:
           echo "AUTHORIZATION=${{secrets.AUTHORIZATION}}" >> .env
 
       # deploy web app using Azure credentials
-      - uses: azure/webapps-deploy@v1
+      - uses: azure/webapps-deploy@v2
         with:
           app-name: 'vocaloid-karaoke-ranking-api'
 
