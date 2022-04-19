@@ -1,7 +1,10 @@
-const { AuthenticationError } = require("apollo-server-errors");
-const { ApolloServer, gql } = require('apollo-server');
+const { AuthenticationError } = require('apollo-server-errors');
+const { ApolloServer, gql } = require('apollo-server-express');
 const osmosis = require('osmosis');
+const express = require("express");
 require('dotenv').config();
+
+(async function() {
 
 const typeDefs = gql`
   type Info {
@@ -47,7 +50,13 @@ const server = new ApolloServer({
   }
 });
 
-server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
-  console.log(`🚀  Server ready at ${url}`);
+const app = express();
+await server.start();
+server.applyMiddleware({ app });
+
+app.listen({ port: process.env.PORT || 4000 }, () => {
+  console.log(`🚀  Server ready at ${server.graphqlPath}`);
   console.log(process.env);
 });
+
+})();
