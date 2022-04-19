@@ -22,6 +22,7 @@ jobs:
 
       - name: 'npm install, build, and test'
         run: |
+          rm -rf node_modules
           npm install
           echo "PORT=8080" >> .env
           echo "AUTHORIZATION=${{secrets.AUTHORIZATION}}" >> .env
