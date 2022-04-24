@@ -1,8 +1,19 @@
-const { AuthenticationError } = require('apollo-server-errors');
-const { ApolloServer, gql } = require('apollo-server-express');
-const osmosis = require('osmosis');
-const express = require("express");
-require('dotenv').config();
+import { AuthenticationError } from 'apollo-server-errors';
+import { ApolloServer, gql } from 'apollo-server-express';
+import got from 'got';
+import cheerio from "cheerio";
+import express from "express";
+import dotenv from 'dotenv';
+dotenv.config();
+
+/*
+curl --request POST \
+    --header 'Authorization: hogehoge' \
+    --header 'content-type: application/json' \
+    --url http://localhost:4000/graphql \
+    --data '{"query":"query ranking {\n  ranking {\n    author\n    title\n    rank\n  }\n}"}'
+ */
+
 
 (async function() {
 
@@ -19,18 +30,21 @@ const typeDefs = gql`
 `;
 
 const getKaratetsuRanking = () => {
-  return new Promise(resolve => {
+  return new Promise(async resolve => {
     const results = [];
-    osmosis
-      .get('https://www.karatetsu.com/vocala/pickup/ranking.php')
-      .find('.pickuplist > tbody > tr')
-      .set({
-        title: 'td[2] > a',
-        author: 'td[3] > span',
-        rank: 'td[1]'
-      })
-      .data(item => results.push(item))
-      .done(() => resolve(results));
+    const response = await got('https://www.karatetsu.com/vocala/pickup/ranking.php');
+    const $ = cheerio.load(response.body);
+    $('.pickuplist > tbody > tr').each(
+      (i, elem) => {
+        const td = $(elem).find('td');
+        results.push({
+          rank: td[0].children[0].data,
+          title: $(td[1]).find('a')[0].children[0].data,
+          author: $(td[2]).find('span')[0].children[0].data
+        });
+      }
+    );
+    resolve(results);
   })
 };
 
