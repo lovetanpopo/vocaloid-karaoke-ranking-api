@@ -10,9 +10,7 @@ name: Node.js
 
 jobs:
   build-and-deploy:
-    # GLIBC_2.29 対応
-    # https://docs.microsoft.com/en-us/answers/questions/236856/microsoft-web-app-service-error-39version-glibc-22.html
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       # checkout the repo
       - name: 'Checkout Github Action'
