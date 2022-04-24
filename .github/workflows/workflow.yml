@@ -3,6 +3,9 @@ on:
     branches:
       - master
 
+env:
+  NODE_VERSION: '14.x'
+
 name: Node.js
 
 jobs:
