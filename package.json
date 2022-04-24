@@ -24,5 +24,8 @@
     "got": "^12.0.3",
     "cheerio": "^1.0.0-rc.10"
   },
-  "type": "module"
+  "type": "module",
+  "engines": {
+    "node": ">=14.0.0"
+  }
 }
