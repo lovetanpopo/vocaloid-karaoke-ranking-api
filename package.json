@@ -19,7 +19,7 @@
     "apollo-server-express": "^3.6.7",
     "dotenv": "^8.2.0",
     "express": "^4.17.3",
-    "graphql": "^16.3.0",
+    "graphql": "^16.8.1",
     "minimist": ">=1.2.6",
     "got": "^12.1.0",
     "cheerio": "^1.0.0-rc.10"
