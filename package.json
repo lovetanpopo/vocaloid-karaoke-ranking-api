@@ -18,7 +18,7 @@
     "apollo-server-errors": "^3.3.1",
     "apollo-server-express": "^3.6.7",
     "dotenv": "^8.2.0",
-    "express": "^4.20.0",
+    "express": "^4.21.2",
     "graphql": "^16.8.1",
     "minimist": ">=1.2.6",
     "got": "^12.1.0",
